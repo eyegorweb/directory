@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import { getContacts } from "./api/contacts.js";
+import { getContacts, patchContact } from "./api/contacts.js";
 import ContactCard from "./components/ContactCard";
 
 export default {
@@ -35,11 +35,12 @@ export default {
   },
 
   methods: {
-    updateContact(contact) {
+    async updateContact(contact) {
+      const updatedContact = await patchContact(contact);
       this.contacts.splice(
-        this.contacts.findIndex(c => c.id === contact.id),
+        this.contacts.findIndex(c => c.id === updatedContact.id),
         1,
-        contact
+        updatedContact
       );
     }
   },
