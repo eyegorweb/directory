@@ -3,26 +3,16 @@
     <div class="container">
       <h1>Hello</h1>
       <p>World</p>
-      <div>
-  <b-card title="Card Title"
-          img-src="https://picsum.photos/600/300/?image=25"
-          img-alt="Image"
-          img-top
-          tag="article"
-          style="max-width: 20rem;"
-          class="mb-2">
-    <p class="card-text">
-      Some quick example text to build on the card title and make up the bulk of the card's content.
-    </p>
-    <b-button href="#" variant="primary">Go somewhere</b-button>
-  </b-card>
-</div>
+
+      <pre>{{ contacts[9] }}</pre>
+      <ContactCard v-if="contacts.length" :contact="contacts[0]"></ContactCard>
     </div>
   </div>
 </template>
 
 <script>
 import { getContacts } from "./api/contacts.js";
+import ContactCard from "./components/ContactCard";
 
 export default {
   name: "app",
@@ -38,5 +28,7 @@ export default {
       this.contacts = contacts;
     });
   },
+
+  components: { ContactCard }
 };
 </script>
