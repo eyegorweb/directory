@@ -4,8 +4,7 @@
       <h1>Hello</h1>
       <p>World</p>
 
-      <pre>{{ contacts[9] }}</pre>
-      <ContactCard v-if="contacts.length" :contact="contacts[0]"></ContactCard>
+      <ContactCard v-for="contact in filteredContacts" :contact="contact"></ContactCard>
     </div>
   </div>
 </template>
@@ -27,6 +26,12 @@ export default {
     getContacts().then(contacts => {
       this.contacts = contacts;
     });
+  },
+
+  computed: {
+    filteredContacts() {
+      return this.contacts.slice(0, 20);
+    }
   },
 
   components: { ContactCard }
