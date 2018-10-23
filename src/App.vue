@@ -21,6 +21,7 @@ export default {
 
   data() {
     return {
+      searchText: "",
       contacts: []
     };
   },
@@ -48,6 +49,12 @@ export default {
         // revert
         this.contacts.splice(index, 1, oldContact);
       }
+    }
+  },
+
+  watch: {
+    async searchText(searchTerm) {
+      this.contacts = await getContacts(searchTerm);
     }
   },
 
