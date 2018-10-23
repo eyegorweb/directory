@@ -51,3 +51,26 @@ export default {
   components: { ContactCard }
 };
 </script>
+
+<style>
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
+}
+
+.fade-enter {
+  transform: translateX(-278px);
+}
+
+.fade-leave-to {
+  transform: translateX(278px);
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 200ms, transform 200ms;
+}
+.fade-leave-active {
+  position: absolute;
+}
+</style>

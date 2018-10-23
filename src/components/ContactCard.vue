@@ -6,48 +6,50 @@
           style="max-width: 20rem;"
           class="mb-2"
   >
-    <b-form v-if="isEditing" @submit.prevent="saveContact">
-      <b-form-input
-        type="text"
-        v-model="localCopy.firstName"
-        required
-        placeholder="Firstname"
-      />
-      <b-form-input
-        type="text"
-        v-model="localCopy.lastName"
-        required
-        placeholder="Lastname"
-      />
-      <b-form-input
-        type="email"
-        v-model="localCopy.email"
-        required
-        placeholder="Email"
-      />
+    <transition name="fade" mode="">
+      <b-form v-if="isEditing" @submit.prevent="saveContact">
+        <b-form-input
+          type="text"
+          v-model="localCopy.firstName"
+          required
+          placeholder="Firstname"
+        />
+        <b-form-input
+          type="text"
+          v-model="localCopy.lastName"
+          required
+          placeholder="Lastname"
+        />
+        <b-form-input
+          type="email"
+          v-model="localCopy.email"
+          required
+          placeholder="Email"
+        />
 
-      <b-form-select v-model="localCopy.gender" class="mb-3">
-        <option :value="null">Not specified</option>
-        <option>Male</option>
-        <option>Female</option>
-      </b-form-select>
+        <b-form-select v-model="localCopy.gender" class="mb-3">
+          <option :value="null">Not specified</option>
+          <option>Male</option>
+          <option>Female</option>
+        </b-form-select>
 
-      <b-button type="submit" class="mr-2">Save</b-button>
-      <b-button type="button" @click="isEditing = false">Cancel</b-button>
-    </b-form>
+        <b-button type="submit" class="mr-2">Save</b-button>
+        <b-button type="button" @click="isEditing = false">Cancel</b-button>
+      </b-form>
 
-    <template v-else>
-      <p class="card-text">
-        Email: {{ contact.email }}
-        <br>
-        <template v-if="contact.gender">
-          Gender: {{ contact.gender }}
+      <div v-else>
+        <p class="card-text">
+          Email: {{ contact.email }}
           <br>
-        </template>
-        Registered at {{ contact.registeredAt }}
-      </p>
-      <b-button @click="startEdit" variant="primary">Edit</b-button>
-    </template>
+          <template v-if="contact.gender">
+            Gender: {{ contact.gender }}
+            <br>
+          </template>
+          Registered at {{ contact.registeredAt }}
+        </p>
+        <b-button @click="startEdit" variant="primary">Edit</b-button>
+      </div>
+    </transition>
 
   </b-card>
 </template>
