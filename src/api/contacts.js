@@ -4,12 +4,19 @@ const contacts = axios.create({
   baseURL: "http://localhost:3000/contacts"
 });
 
-export function getContacts(q) {
+export function getContacts(q, page, perPage) {
   return contacts
     .get("/", {
-      params: { q }
+      params: {
+        q,
+        _start: (page - 1) * perPage,
+        _limit: perPage
+      }
     })
-    .then(res => res.data);
+    .then(res => ({
+      contacts: res.data,
+      total: Number(res.headers["x-total-count"]) || 0
+    }));
 }
 
 export function patchContact(contact) {

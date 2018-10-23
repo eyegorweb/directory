@@ -4,8 +4,9 @@
       <h1>Directory</h1>
 
       <Search v-model="searchText">
+        <b-pagination size="md" :total-rows="total" v-model="currentPage" :per-page="perPage"/>
         <b-card-group deck style="justify-content: center">
-          <ContactCard v-for="contact in filteredContacts" :contact="contact" @update:contact="updateContact" style="flex-basis: 100%"></ContactCard>
+          <ContactCard v-for="contact in filteredContacts" :contact="contact" :key="contact.id" @update:contact="updateContact" style="flex-basis: 100%"></ContactCard>
         </b-card-group>
       </Search>
 
@@ -25,14 +26,19 @@ export default {
   data() {
     return {
       searchText: "",
+      perPage: 10,
+      currentPage: 1,
+      total: 0,
       contacts: []
     };
   },
 
   created() {
-    getContacts().then(contacts => {
-      this.contacts = contacts;
-    });
+    this.searchContacts();
+    this.$watch(
+      () => this.searchText + this.perPage + this.currentPage,
+      debounce(this.searchContacts, 300)
+    );
   },
 
   computed: {
@@ -52,13 +58,16 @@ export default {
         // revert
         this.contacts.splice(index, 1, oldContact);
       }
+    },
+    async searchContacts() {
+      const { contacts, total } = await getContacts(
+        this.searchText,
+        this.currentPage,
+        this.perPage
+      );
+      this.contacts = contacts;
+      this.total = total;
     }
-  },
-
-  watch: {
-    searchText: debounce(async function(searchTerm) {
-      this.contacts = await getContacts(searchTerm);
-    }, 300)
   },
 
   components: { ContactCard, Search }
