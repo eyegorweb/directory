@@ -22,7 +22,21 @@
 </template>
 
 <script>
+import { getContacts } from "./api/contacts.js";
+
 export default {
-  name: "app"
+  name: "app",
+
+  data() {
+    return {
+      contacts: []
+    };
+  },
+
+  created() {
+    getContacts().then(contacts => {
+      this.contacts = contacts;
+    });
+  },
 };
 </script>
