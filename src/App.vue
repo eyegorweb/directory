@@ -4,7 +4,7 @@
       <h1>Hello</h1>
       <p>World</p>
 
-      <ContactCard v-for="contact in filteredContacts" :contact="contact"></ContactCard>
+      <ContactCard v-for="contact in filteredContacts" :contact="contact" @update:contact="updateContact"></ContactCard>
     </div>
   </div>
 </template>
@@ -31,6 +31,16 @@ export default {
   computed: {
     filteredContacts() {
       return this.contacts.slice(0, 20);
+    }
+  },
+
+  methods: {
+    updateContact(contact) {
+      this.contacts.splice(
+        this.contacts.findIndex(c => c.id === contact.id),
+        1,
+        contact
+      );
     }
   },
 

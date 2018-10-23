@@ -6,14 +6,34 @@
           style="max-width: 20rem;"
           class="mb-2"
   >
-    <b-form v-if="isEditing" @submit.prevent="isEditing = false">
+    <b-form v-if="isEditing" @submit.prevent="saveContact">
       <b-form-input
         type="text"
-        v-model="contact.firstName"
+        v-model="localCopy.firstName"
         required
         placeholder="Firstname"
       />
-      <b-button type="submit">Save</b-button>
+      <b-form-input
+        type="text"
+        v-model="localCopy.lastName"
+        required
+        placeholder="Lastname"
+      />
+      <b-form-input
+        type="email"
+        v-model="localCopy.email"
+        required
+        placeholder="Email"
+      />
+
+      <b-form-select v-model="localCopy.gender" class="mb-3">
+        <option :value="null">Not specified</option>
+        <option>Male</option>
+        <option>Female</option>
+      </b-form-select>
+
+      <b-button type="submit" class="mr-2">Save</b-button>
+      <b-button type="button" @click="isEditing = false">Cancel</b-button>
     </b-form>
 
     <template v-else>
@@ -26,7 +46,7 @@
         </template>
         Registered at {{ contact.registeredAt }}
       </p>
-      <b-button @click="isEditing = true" variant="primary">Edit</b-button>
+      <b-button @click="startEdit" variant="primary">Edit</b-button>
     </template>
 
   </b-card>
@@ -43,8 +63,20 @@ export default {
 
   data() {
     return {
-      isEditing: false
+      isEditing: false,
+      localCopy: null
     };
+  },
+
+  methods: {
+    startEdit() {
+      this.localCopy = { ...this.contact };
+      this.isEditing = true;
+    },
+    saveContact() {
+      this.isEditing = false;
+      this.$emit("update:contact", this.localCopy);
+    }
   },
 
   computed: {
