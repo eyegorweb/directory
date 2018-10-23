@@ -4,7 +4,9 @@
       <h1>Directory</h1>
 
       <Search v-model="searchText">
-        <ContactCard v-for="contact in filteredContacts" :contact="contact" @update:contact="updateContact"></ContactCard>
+        <b-card-group deck style="justify-content: center">
+          <ContactCard v-for="contact in filteredContacts" :contact="contact" @update:contact="updateContact" style="flex-basis: 100%"></ContactCard>
+        </b-card-group>
       </Search>
 
     </b-container>
