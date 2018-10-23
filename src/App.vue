@@ -1,17 +1,20 @@
 <template>
   <div id="app">
-    <div class="container">
-      <h1>Hello</h1>
-      <p>World</p>
+    <b-container>
+      <h1>Directory</h1>
 
-      <ContactCard v-for="contact in filteredContacts" :contact="contact" @update:contact="updateContact"></ContactCard>
-    </div>
+      <Search v-model="searchText">
+        <ContactCard v-for="contact in filteredContacts" :contact="contact" @update:contact="updateContact"></ContactCard>
+      </Search>
+
+    </b-container>
   </div>
 </template>
 
 <script>
 import { getContacts, patchContact } from "./api/contacts.js";
 import ContactCard from "./components/ContactCard";
+import Search from "./components/Search";
 
 export default {
   name: "app",
@@ -48,7 +51,7 @@ export default {
     }
   },
 
-  components: { ContactCard }
+  components: { ContactCard, Search }
 };
 </script>
 
