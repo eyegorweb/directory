@@ -15,6 +15,7 @@
 import { getContacts, patchContact } from "./api/contacts.js";
 import ContactCard from "./components/ContactCard";
 import Search from "./components/Search";
+import debounce from "lodash.debounce";
 
 export default {
   name: "app",
@@ -53,9 +54,9 @@ export default {
   },
 
   watch: {
-    async searchText(searchTerm) {
+    searchText: debounce(async function(searchTerm) {
       this.contacts = await getContacts(searchTerm);
-    }
+    }, 300)
   },
 
   components: { ContactCard, Search }
