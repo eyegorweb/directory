@@ -6,7 +6,10 @@
           style="max-width: 20rem;"
           class="mb-2"
   >
-    <transition name="fade" mode="">
+    <transition
+      enter-active-class="animated rollIn"
+      leave-active-class="animated rollOut"
+    >
       <b-form v-if="isEditing" @submit.prevent="saveContact">
         <b-form-input
           type="text"
@@ -90,4 +93,17 @@ export default {
 </script>
 
 <style scoped>
+.animated {
+  animation-duration: 300ms;
+}
+.animated.rollOut {
+  position: absolute;
+}
 </style>
+
+<style>
+@import "~animate.css/source/_base.css";
+@import "~animate.css/source/specials/rollIn.css";
+@import "~animate.css/source/specials/rollOut.css";
+</style>
+
