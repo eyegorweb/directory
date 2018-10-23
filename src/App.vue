@@ -4,8 +4,8 @@
       <h1>Directory</h1>
 
       <Search :fetch="getContacts">
-        <b-card-group deck style="justify-content: center" slot-scope="{ results }">
-          <ContactCard v-for="contact in results" :contact="contact" :key="contact.id" @update:contact="updateContact" style="flex-basis: 100%"></ContactCard>
+        <b-card-group deck style="justify-content: center" slot-scope="{ results, replaceResult }">
+          <ContactCard v-for="contact in results" :contact="contact" :key="contact.id" @update:contact="updateContact($event, replaceResult)" style="flex-basis: 100%"></ContactCard>
         </b-card-group>
       </Search>
 
@@ -26,16 +26,13 @@ export default {
   },
 
   methods: {
-    async updateContact(contact) {
-      const index = this.contacts.findIndex(c => c.id === contact.id);
-      const oldContact = this.contacts[index];
-      // TODO
-      // this.contacts.splice(index, 1, contact);
+    async updateContact(contact, replaceResult) {
+      const oldContact = replaceResult(contact);
       try {
         await patchContact(contact);
       } catch (e) {
         // revert
-        // this.contacts.splice(index, 1, oldContact);
+        replaceResult(oldContact);
       }
     }
   },

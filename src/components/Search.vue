@@ -3,7 +3,7 @@
     <b-input v-model="searchText" class="mb-3" placeholder="Search" size="lg"/>
     <b-pagination size="md" :total-rows="total" v-model="currentPage" :per-page="perPage"/>
 
-    <slot :results="results"/>
+    <slot :results="results" :replace-result="replaceResult"/>
   </div>
 </template>
 
@@ -37,6 +37,13 @@ export default {
       );
       this.results = results;
       this.total = total;
+    },
+
+    replaceResult(result) {
+      const index = this.results.findIndex(r => r.id === result.id);
+      const oldResult = this.results[index];
+      this.results.splice(index, 1, result);
+      return oldResult;
     }
   },
 
