@@ -14,7 +14,7 @@ export function getContacts(q, page, perPage) {
       }
     })
     .then(res => ({
-      contacts: res.data,
+      results: res.data,
       total: Number(res.headers["x-total-count"]) || 0
     }));
 }
