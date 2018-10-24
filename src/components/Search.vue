@@ -32,7 +32,10 @@ export default {
         return this.$route.query.q || "";
       },
       set(q) {
-        this.$router.push({ query: { ...this.$route.query, q } });
+        this.updateRoute({
+          q,
+          p: q === this.$route.query.q ? this.$route.query.p : 1
+        });
       }
     },
     currentPage: {
@@ -40,7 +43,7 @@ export default {
         return Number(this.$route.query.p) || 1;
       },
       set(p) {
-        this.$router.push({ query: { ...this.$route.query, p } });
+        this.updateRoute({ p });
       }
     }
   },
@@ -61,6 +64,14 @@ export default {
       const oldResult = this.results[index];
       this.results.splice(index, 1, result);
       return oldResult;
+    },
+
+    updateRoute(partialQuery) {
+      const query = { ...this.$route.query, ...partialQuery };
+      if (!query.q) delete query.q;
+      if (query.p === 1) delete query.p;
+
+      this.$router.push({ query });
     }
   },
 
