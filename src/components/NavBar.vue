@@ -28,7 +28,7 @@
             <em>Contact Cart <b-badge>{{ $store.state.contactCart.length }}</b-badge></em>
           </template>
           <b-dropdown-item v-if="alreadyFavoritedContacts.length" disabled>{{ alreadyFavoritedContacts.length }} are already favorited</b-dropdown-item>
-          <b-dropdown-item href="#">Add to favorite</b-dropdown-item>
+          <b-dropdown-item @click="saveContactsInCartAsFavorite">Add to favorite</b-dropdown-item>
           <b-dropdown-item @click="dropContactCart">Drop</b-dropdown-item>
         </b-nav-item-dropdown>
       </b-navbar-nav>
@@ -38,9 +38,12 @@
 </template>
 
 <script>
-import { mapMutations, mapGetters } from "vuex";
+import { mapMutations, mapGetters, mapActions } from "vuex";
 export default {
-  methods: mapMutations(["dropContactCart"]),
+  methods: {
+    ...mapMutations(["dropContactCart"]),
+    ...mapActions(["saveContactsInCartAsFavorite"])
+  },
   computed: mapGetters(["alreadyFavoritedContacts"])
 };
 </script>

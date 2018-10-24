@@ -1,5 +1,6 @@
 import Vue from "vue";
 import Vuex from "vuex";
+import { patchContact } from "./api/contacts";
 
 Vue.use(Vuex);
 
@@ -32,6 +33,17 @@ export default new Vuex.Store({
     },
     isInContactCart(state) {
       return contact => state.contactCart.some(c => c.id === contact.id);
+    }
+  },
+
+  actions: {
+    async saveContactsInCartAsFavorite({ commit, state }) {
+      await Promise.all(
+        state.contactCart.map(contact =>
+          patchContact({ ...contact, isFavorite: true })
+        )
+      );
+      commit("dropContactCart");
     }
   }
 });
