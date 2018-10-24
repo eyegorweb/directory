@@ -1,5 +1,5 @@
 <template>
-  <b-navbar toggleable="md" type="dark" variant="info">
+  <b-navbar toggleable="md">
 
     <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
 
@@ -25,7 +25,7 @@
         <b-nav-item-dropdown right>
           <!-- Using button-content slot -->
           <template slot="button-content">
-            <em>Contact Cart</em>
+            <em>Contact Cart <b-badge>{{ $store.state.contactCart.length }}</b-badge></em>
           </template>
           <b-dropdown-item href="#">Add to favorite</b-dropdown-item>
           <b-dropdown-item href="#">Drop</b-dropdown-item>
