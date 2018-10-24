@@ -50,7 +50,7 @@
           </template>
           Registered at {{ contact.registeredAt }}
         </p>
-        <b-button @click="startEdit" variant="primary">Edit</b-button>
+        <b-button data-test-id="edit" @click="startEdit" variant="primary">Edit</b-button>
 
         <b-button v-if="!hideDetailLink" variant="link" :to="detailLink">View detail</b-button>
       </div>

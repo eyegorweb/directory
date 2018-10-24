@@ -17,11 +17,44 @@ const contact = {
 };
 
 describe("ContactCard.vue", () => {
-  it("renders fullname", () => {
-    const wrapper = mount(ContactCard, {
+  /** @type {import('@vue/test-utils').Wrapper<ContactCard>} */
+  let wrapper;
+  beforeEach(() => {
+    wrapper = mount(ContactCard, {
       propsData: { contact },
       localVue
     });
+  });
+
+  it("renders fullname", () => {
     expect(wrapper.find(".card-title").text()).toBe("Jean Dupont");
   });
+
+  it("renders gender", () => {
+    expect(wrapper.find(".card-text").text()).toMatch("Gender: Male");
+  });
+
+  it("is in non-editing mode by default", () => {
+    expect(wrapper.find("form").exists()).toBe(false);
+    expect(wrapper.find("input").exists()).toBe(false);
+  });
+
+  it("displays a form in editing mode", () => {
+    wrapper.find("[data-test-id=edit]").trigger("click");
+    expect(wrapper.find("form").exists()).toBe(true);
+    expect(wrapper.find("input").exists()).toBe(true);
+  });
+
+  it("emits an update object on save", () => {
+    wrapper.find("[data-test-id=edit]").trigger("click");
+    wrapper.find("input").setValue("Jacques");
+    wrapper.find("select").setValue("Female");
+    wrapper.find("form").trigger("submit");
+    expect(wrapper.emitted("update:contact")).toEqual([
+      [{ ...contact, firstName: "Jacques", gender: "Female" }]
+    ]);
+  });
+
+  it.skip("uses a localcopy while editing", () => {});
+  it.skip("does not emit when canceling", () => {});
 });
