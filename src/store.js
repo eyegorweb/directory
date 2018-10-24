@@ -1,12 +1,13 @@
 import Vue from "vue";
 import Vuex from "vuex";
-import { patchContact } from "./api/contacts";
+import { patchContact, getContact } from "./api/contacts";
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    contactCart: []
+    contactCart: [],
+    currentContact: null
   },
 
   mutations: {
@@ -24,6 +25,10 @@ export default new Vuex.Store({
 
     dropContactCart(state) {
       state.contactCart = [];
+    },
+
+    setCurrentContact(state, contact) {
+      state.currentContact = contact;
     }
   },
 
@@ -44,6 +49,9 @@ export default new Vuex.Store({
         )
       );
       commit("dropContactCart");
+    },
+    async fetchCurrentContact({ commit }, id) {
+      commit("setCurrentContact", await getContact(id));
     }
   }
 });

@@ -7,9 +7,9 @@
 </template>
 
 <script>
-import { getContact, patchContact } from "../api/contacts.js";
+import { patchContact } from "../api/contacts.js";
 import ContactCard from "../components/ContactCard";
-import { mapMutations, mapGetters } from "vuex";
+import { mapMutations, mapGetters, mapActions, mapState } from "vuex";
 
 export default {
   props: {
@@ -19,27 +19,29 @@ export default {
     }
   },
 
-  data() {
-    return {
-      contact: null
-    };
+  created() {
+    this.fetchCurrentContact(this.id).then(() => {
+      console.log(this.contact);
+    });
   },
 
-  async created() {
-    this.contact = await getContact(this.id);
+  destroyed() {
+    this.setCurrentContact(null);
   },
 
   methods: {
     async updateContact(contact) {
-      this.contact = await patchContact(contact);
+      this.setCurrentContact(await patchContact(contact));
     },
     cartAction() {
       if (this.isAdded) this.removeFromCart(this.contact);
       else this.addToCart(this.contact);
     },
+    ...mapActions(["fetchCurrentContact"]),
     ...mapMutations({
       addToCart: "addContactToCart",
-      removeFromCart: "removeContactFromCart"
+      removeFromCart: "removeContactFromCart",
+      setCurrentContact: "setCurrentContact"
     })
   },
 
@@ -52,7 +54,10 @@ export default {
       if (!this.contact) return "";
       return this.isAdded ? "Remove from cart" : "Add to cart";
     },
-    ...mapGetters(["isInContactCart"])
+    ...mapGetters(["isInContactCart"]),
+    ...mapState({
+      contact: "currentContact"
+    })
   },
 
   components: { ContactCard }
