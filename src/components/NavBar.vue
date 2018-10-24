@@ -28,7 +28,7 @@
             <em>Contact Cart <b-badge>{{ $store.state.contactCart.length }}</b-badge></em>
           </template>
           <b-dropdown-item href="#">Add to favorite</b-dropdown-item>
-          <b-dropdown-item href="#">Drop</b-dropdown-item>
+          <b-dropdown-item @click="dropContactCart">Drop</b-dropdown-item>
         </b-nav-item-dropdown>
       </b-navbar-nav>
 
@@ -37,7 +37,10 @@
 </template>
 
 <script>
-export default {};
+import { mapMutations } from "vuex";
+export default {
+  methods: mapMutations(["dropContactCart"])
+};
 </script>
 
 <style scoped>
