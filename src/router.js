@@ -10,7 +10,12 @@ Vue.use(Router);
 export default new Router({
   mode: "history",
   routes: [
-    { path: "/", component: Home },
-    { path: "/contacts/:id", component: ContactDetail }
+    { path: "/", name: "Home", component: Home },
+    {
+      path: "/contacts/:id",
+      name: "ContactDetail",
+      component: ContactDetail,
+      props: true
+    }
   ]
 });

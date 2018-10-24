@@ -1,6 +1,6 @@
 <template>
   <div>
-    <ContactCard v-if="contact" :contact="contact"  @update:contact="updateContact" />
+    <ContactCard v-if="contact" :contact="contact"  @update:contact="updateContact" hide-detail-link />
     <p v-else>loading...</p>
   </div>
 </template>
@@ -10,6 +10,13 @@ import { getContact, patchContact } from "../api/contacts.js";
 import ContactCard from "../components/ContactCard";
 
 export default {
+  props: {
+    id: {
+      type: String,
+      required: true
+    }
+  },
+
   data() {
     return {
       contact: null
@@ -17,7 +24,7 @@ export default {
   },
 
   async created() {
-    this.contact = await getContact(this.$route.params.id);
+    this.contact = await getContact(this.id);
   },
 
   methods: {

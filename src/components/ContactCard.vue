@@ -51,6 +51,8 @@
           Registered at {{ contact.registeredAt }}
         </p>
         <b-button @click="startEdit" variant="primary">Edit</b-button>
+
+        <b-button v-if="!hideDetailLink" variant="link" :to="detailLink">View detail</b-button>
       </div>
     </transition>
 
@@ -63,7 +65,8 @@ export default {
     contact: {
       type: Object,
       required: true
-    }
+    },
+    hideDetailLink: Boolean
   },
 
   data() {
@@ -87,6 +90,12 @@ export default {
   computed: {
     fullName() {
       return this.contact.firstName + " " + this.contact.lastName;
+    },
+    detailLink() {
+      return {
+        name: "ContactDetail",
+        params: { id: "" + this.contact.id }
+      };
     }
   }
 };
