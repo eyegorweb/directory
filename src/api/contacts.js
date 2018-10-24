@@ -22,3 +22,7 @@ export function getContacts(q, page, perPage) {
 export function patchContact(contact) {
   return contacts.patch("/" + contact.id, contact).then(res => res.data);
 }
+
+export function getContact(id) {
+  return contacts.get("/" + id).then(res => res.data);
+}
