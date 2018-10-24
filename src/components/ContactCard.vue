@@ -37,7 +37,7 @@
         </b-form-select>
 
         <b-button type="submit" class="mr-2">Save</b-button>
-        <b-button type="button" @click="isEditing = false">Cancel</b-button>
+        <b-button type="button" data-test-id="cancel" @click="isEditing = false">Cancel</b-button>
       </b-form>
 
       <div v-else>

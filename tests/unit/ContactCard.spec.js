@@ -55,6 +55,21 @@ describe("ContactCard.vue", () => {
     ]);
   });
 
-  it.skip("uses a localcopy while editing", () => {});
-  it.skip("does not emit when canceling", () => {});
+  it("does not modify the original contact prop object", () => {
+    const original = { ...contact };
+    wrapper.find("[data-test-id=edit]").trigger("click");
+    wrapper.find("input").setValue("Jacques");
+    wrapper.find("select").setValue("Female");
+
+    expect(contact).toEqual(original);
+    expect(wrapper.emitted("update:contact")).toBe(undefined);
+  });
+
+  it("does not emit when canceling", () => {
+    wrapper.find("[data-test-id=edit]").trigger("click");
+    wrapper.find("input").setValue("Jacques");
+    wrapper.find("[data-test-id=cancel]").trigger("click");
+
+    expect(wrapper.emitted("update:contact")).toBe(undefined);
+  });
 });
