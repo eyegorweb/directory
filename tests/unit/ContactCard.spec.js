@@ -72,4 +72,13 @@ describe("ContactCard.vue", () => {
 
     expect(wrapper.emitted("update:contact")).toBe(undefined);
   });
+
+  it("updates the fullname while editing", () => {
+    wrapper.find("[data-test-id=edit]").trigger("click");
+    wrapper.find("input").setValue("Jacques");
+    expect(wrapper.find(".card-title").text()).toBe("Jacques Dupont");
+
+    wrapper.find("[data-test-id=cancel]").trigger("click");
+    expect(wrapper.find(".card-title").text()).toBe("Jean Dupont");
+  });
 });

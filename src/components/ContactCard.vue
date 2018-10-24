@@ -89,7 +89,9 @@ export default {
 
   computed: {
     fullName() {
-      return this.contact.firstName + " " + this.contact.lastName;
+      return this.isEditing
+        ? this.localCopy.firstName + " " + this.localCopy.lastName
+        : this.contact.firstName + " " + this.contact.lastName;
     },
     detailLink() {
       return {
