@@ -1,7 +1,7 @@
 <template>
   <div>
     <b-input v-model="searchText" class="mb-3" placeholder="Search" size="lg"/>
-    <b-pagination size="md" :total-rows="total" v-model="currentPage" :per-page="perPage"/>
+    <b-pagination :key="total" :disabled="!total" size="md" :total-rows="total" :value="currentPage" :per-page="perPage" @change="currentPage = $event"/>
 
     <slot :results="results" :replace-result="replaceResult"/>
   </div>
@@ -20,12 +20,29 @@ export default {
 
   data() {
     return {
-      searchText: "",
       perPage: 10,
-      currentPage: 1,
       total: 0,
       results: []
     };
+  },
+
+  computed: {
+    searchText: {
+      get() {
+        return this.$route.query.q || "";
+      },
+      set(q) {
+        this.$router.push({ query: { ...this.$route.query, q } });
+      }
+    },
+    currentPage: {
+      get() {
+        return Number(this.$route.query.p) || 1;
+      },
+      set(p) {
+        this.$router.push({ query: { ...this.$route.query, p } });
+      }
+    }
   },
 
   methods: {
