@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-button :disabled="!contact" class="mb-3" variant="success" @click="addToCart">Add to cart</b-button>
+    <b-button :disabled="!contact" class="mb-3" variant="success" @click="addToCart(contact)">Add to cart</b-button>
     <ContactCard v-if="contact" :contact="contact"  @update:contact="updateContact" hide-detail-link />
     <p v-else>loading...</p>
   </div>
@@ -9,6 +9,7 @@
 <script>
 import { getContact, patchContact } from "../api/contacts.js";
 import ContactCard from "../components/ContactCard";
+import { mapMutations } from "vuex";
 
 export default {
   props: {
@@ -32,10 +33,7 @@ export default {
     async updateContact(contact) {
       this.contact = await patchContact(contact);
     },
-
-    addToCart() {
-      this.$store.commit("addContactToCart", this.contact);
-    }
+    ...mapMutations({ addToCart: "addContactToCart" })
   },
 
   components: { ContactCard }
