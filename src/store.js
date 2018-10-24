@@ -10,6 +10,7 @@ export default new Vuex.Store({
 
   mutations: {
     addContactToCart(state, contact) {
+      if (state.contactCart.find(c => c.id === contact.id)) return;
       state.contactCart.push(contact);
     }
   }

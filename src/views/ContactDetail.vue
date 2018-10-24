@@ -1,5 +1,6 @@
 <template>
   <div>
+    <b-button :disabled="!contact" class="mb-3" variant="success" @click="addToCart">Add to cart</b-button>
     <ContactCard v-if="contact" :contact="contact"  @update:contact="updateContact" hide-detail-link />
     <p v-else>loading...</p>
   </div>
@@ -30,6 +31,10 @@ export default {
   methods: {
     async updateContact(contact) {
       this.contact = await patchContact(contact);
+    },
+
+    addToCart() {
+      this.$store.commit("addContactToCart", this.contact);
     }
   },
 

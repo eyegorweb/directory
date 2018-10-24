@@ -1,15 +1,22 @@
 <template>
   <div id="app">
+    <NavBar class="mb-4"/>
     <b-container>
-      <h1>
-        <router-link to="/">Directory</router-link>
-      </h1>
 
       <router-view/>
 
     </b-container>
   </div>
 </template>
+
+<script>
+import NavBar from "./components/NavBar";
+
+export default {
+  components: { NavBar }
+};
+</script>
+
 
 <style>
 .fade-enter,
